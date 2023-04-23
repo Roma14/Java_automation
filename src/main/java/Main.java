@@ -1,6 +1,8 @@
+import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.pbkdf2.Arrays;
+
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 
 public class Main {
 
@@ -12,9 +14,9 @@ public class Main {
         myList.add("Roma");
         myList.add(0,"Lola");
 
-        Arrays.copyOf(array, array.length * 2);
-        System.out.println(myList.toString());
-        System.out.println(Arrays.toString(array));
+//        Arrays.copyOf(array, array.length * 2);
+//        System.out.println(myList.toString());
+//        System.out.println(Arrays.toString(array));
 //        try {
 //            Connection connection = DriverManager.getConnection(URL, "postgres", "root");
 //            Statement statement = connection.createStatement();

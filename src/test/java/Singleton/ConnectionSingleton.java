@@ -21,8 +21,10 @@ public class ConnectionSingleton {
 
     public static void closeConnection(){
         try {
-            connection.close();
-        } catch (SQLException e) {
+            if(connection != null){
+                connection.close();
+            }
+            } catch (SQLException e) {
             e.printStackTrace();
         }
         connection = null;
