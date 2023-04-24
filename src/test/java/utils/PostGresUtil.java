@@ -3,6 +3,8 @@ package utils;
 import Singleton.ConnectionSingleton;
 import models.Actor;
 import models.Film;
+import org.apache.log4j.Logger;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,6 +14,7 @@ import java.util.List;
 
 
 public class PostGresUtil {
+    protected static Logger logger = Logger.getLogger(ConnectionSingleton.class);
 
     public static ResultSet executeQuery(String request){
         ResultSet resultSet = null;
@@ -35,6 +38,7 @@ public class PostGresUtil {
             pstmt.setInt(1, startYear);
             pstmt.setInt(2, finalYear);
             ResultSet result= pstmt.executeQuery();
+            logger.debug("Request to DataBase performed");
 
             while (result.next()){
                 long film_id = result.getLong("film_id");
@@ -46,11 +50,13 @@ public class PostGresUtil {
                 String rating = result.getString("rating");
                 Film film  = new Film(film_id, title, description, release_year, rental_rate, length, rating );
                 filmList.add(film);
+                logger.info(String.format("Film %s is added to List", film.toString()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionSingleton.closeConnection();
+            logger.info(String.format("Film list  %s returned", filmList.toString()));
             return filmList;
         }
     }
@@ -65,6 +71,7 @@ public class PostGresUtil {
             PreparedStatement pstmt = ConnectionSingleton.getInstance().prepareStatement(request);
             pstmt.setString(1, category);
             ResultSet result= pstmt.executeQuery();
+            logger.debug("Request to DataBase performed");
 
             while (result.next()){
                 long film_id = result.getLong("film_id");
@@ -76,11 +83,13 @@ public class PostGresUtil {
                 String rating = result.getString("rating");
                 Film film  = new Film(film_id, title, description, release_year, rental_rate, length, rating );
                 filmList.add(film);
+                logger.info(String.format("Film %s is added to list", film.toString()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionSingleton.closeConnection();
+            logger.info(String.format("Film list  %s returned", filmList.toString()));
             return filmList;
         }
     }
@@ -99,6 +108,7 @@ public class PostGresUtil {
             pstmt.setString(1, filmCategory);
             pstmt.setInt(2, filmYearRelease);
             ResultSet result= pstmt.executeQuery();
+            logger.debug("Request to DataBase performed");
 
             while (result.next()){
                 long actor_id = result.getLong("actor_id");
@@ -106,11 +116,13 @@ public class PostGresUtil {
                 String lastName = result.getString("last_name");
                 Actor actor  = new Actor(actor_id, firstName, lastName);
                 filmList.add(actor);
+                logger.info(String.format("Actor %s starred in %s film created before %d ", actor.toString(), filmCategory,filmYearRelease));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionSingleton.closeConnection();
+            logger.info(String.format("Actor list returned: %s", filmList.toString()));
             return filmList;
         }
     }
@@ -126,6 +138,7 @@ public class PostGresUtil {
             PreparedStatement pstmt = ConnectionSingleton.getInstance().prepareStatement(request);
             pstmt.setInt(1, topCount);
             ResultSet result= pstmt.executeQuery();
+            logger.debug("Request to DataBase performed");
 
             while (result.next()){
                 long actor_id = result.getLong("actor_id");
@@ -133,11 +146,13 @@ public class PostGresUtil {
                 String lastName = result.getString("last_name");
                 Actor actor  = new Actor(actor_id, firstName, lastName);
                 filmList.add(actor);
+                logger.info(String.format("Actor %s is added to list", actor.toString()));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionSingleton.closeConnection();
+            logger.info(String.format("Top %d actor list returned: %s", topCount, filmList.toString()));
             return filmList;
         }
     }

@@ -1,16 +1,20 @@
 package Singleton;
 
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionSingleton {
+    protected static Logger logger = Logger.getLogger(ConnectionSingleton.class);
     private static final String URL = "jdbc:postgresql://127.0.0.1:5432/dvd_rental";
     private static Connection connection;
 
     public static Connection getInstance(){
         if (connection == null){
             try {
+                logger.debug("Connection initialization");
                 connection = DriverManager.getConnection(URL, "postgres", "root");
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -22,6 +26,7 @@ public class ConnectionSingleton {
     public static void closeConnection(){
         try {
             if(connection != null){
+                logger.debug("Connection closing");
                 connection.close();
             }
             } catch (SQLException e) {
